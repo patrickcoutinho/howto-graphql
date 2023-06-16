@@ -1,4 +1,4 @@
-import { extendType, objectType } from "nexus";
+import { extendType, nonNull, objectType, stringArg } from "nexus";
 import { NexusGenObjects } from "../../nexus-typegen";
 
 export const Link = objectType({
@@ -10,7 +10,7 @@ export const Link = objectType({
   },
 });
 
-let links: NexusGenObjects["Link"][] = [
+const links: NexusGenObjects["Link"][] = [
   {
     id: 1,
     url: "www.howtographql.com",
@@ -30,6 +30,35 @@ export const LinkQuery = extendType({
       type: "Link",
       resolve(parent, args, context, info) {
         return links;
+      },
+    });
+  },
+});
+
+export const LinkMutation = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.nonNull.field("post", {
+      type: "Link",
+      args: {
+        description: nonNull(stringArg()),
+        url: nonNull(stringArg()),
+      },
+
+      resolve(parent, args, context) {
+        const { description, url } = args;
+
+        const id = links.length + 1;
+
+        const link = {
+          id,
+          description,
+          url,
+        };
+
+        links.push(link);
+
+        return link;
       },
     });
   },
