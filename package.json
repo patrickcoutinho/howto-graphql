@@ -1,0 +1,19 @@
+{
+  "name": "howto-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
+    "generate": "ts-node --transpile-only src/schema.ts"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "apollo-server": "^3.1.1",
+    "graphql": "^15.5.1",
+    "nexus": "^1.1.0"
+  }
+}
