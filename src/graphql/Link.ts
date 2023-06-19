@@ -78,5 +78,27 @@ export const LinkMutation = extendType({
         return link;
       },
     });
+
+    t.nonNull.field("update", {
+      type: "Link",
+      args: {
+        id: nonNull(intArg()),
+        description: stringArg(),
+        url: stringArg(),
+      },
+
+      resolve(parent, args, context) {
+        const { id, description, url } = args;
+
+        const index = links.findIndex((obj) => {
+          return obj.id === id;
+        });
+
+        links[index].description = description || links[index].description;
+        links[index].url = url || links[index].url;
+
+        return links[index];
+      },
+    });
   },
 });
