@@ -13,5 +13,12 @@ type Mutation {
 }
 
 type Query {
+  """A single entry"""
+  entry(
+    """
+    LinkID"
+    """
+    linkId: Int!
+  ): Link
   feed: [Link!]!
 }
