@@ -10,7 +10,7 @@ export const Link = objectType({
   },
 });
 
-const links: NexusGenObjects["Link"][] = [
+let links: NexusGenObjects["Link"][] = [
   {
     id: 1,
     url: "www.howtographql.com",
@@ -98,6 +98,23 @@ export const LinkMutation = extendType({
         links[index].url = url || links[index].url;
 
         return links[index];
+      },
+    });
+
+    t.nonNull.field("delete", {
+      type: "Boolean",
+      args: {
+        id: nonNull(intArg()),
+      },
+
+      resolve(parent, args, context) {
+        const { id } = args;
+
+        const linksNew = links.filter((obj) => obj.id !== id);
+
+        links = linksNew;
+
+        return true;
       },
     });
   },

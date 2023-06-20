@@ -54,6 +54,7 @@ export interface NexusGenFieldTypes {
     url: string; // String!
   }
   Mutation: { // field return type
+    delete: boolean; // Boolean!
     post: NexusGenRootTypes['Link']; // Link!
     update: NexusGenRootTypes['Link']; // Link!
   }
@@ -70,6 +71,7 @@ export interface NexusGenFieldTypeNames {
     url: 'String'
   }
   Mutation: { // field return type name
+    delete: 'Boolean'
     post: 'Link'
     update: 'Link'
   }
@@ -81,6 +83,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    delete: { // args
+      id: number; // Int!
+    }
     post: { // args
       description: string; // String!
       url: string; // String!
