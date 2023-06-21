@@ -54,6 +54,11 @@ export interface NexusGenObjects {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Feed: { // root type
+    count: number; // Int!
+    id?: string | null; // ID
+    links: NexusGenRootTypes['Link'][]; // [Link!]!
+  }
   Link: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -88,6 +93,11 @@ export interface NexusGenFieldTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Feed: { // field return type
+    count: number; // Int!
+    id: string | null; // ID
+    links: NexusGenRootTypes['Link'][]; // [Link!]!
+  }
   Link: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -106,7 +116,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     entry: NexusGenRootTypes['Link'] | null; // Link
-    feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    feed: NexusGenRootTypes['Feed']; // Feed!
   }
   User: { // field return type
     email: string; // String!
@@ -126,6 +136,11 @@ export interface NexusGenFieldTypeNames {
     token: 'String'
     user: 'User'
   }
+  Feed: { // field return type name
+    count: 'Int'
+    id: 'ID'
+    links: 'Link'
+  }
   Link: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
@@ -144,7 +159,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     entry: 'Link'
-    feed: 'Link'
+    feed: 'Feed'
   }
   User: { // field return type name
     email: 'String'
