@@ -17,6 +17,7 @@ export const Link = objectType({
     t.nonNull.int("id");
     t.nonNull.string("description");
     t.nonNull.string("url");
+    t.nonNull.dateTime("createdAt");
     t.field("postedBy", {
       type: "User",
       resolve(parent, args, context) {
@@ -26,7 +27,6 @@ export const Link = objectType({
       },
     });
     t.nonNull.list.nonNull.field("voters", {
-      // 1
       type: "User",
       resolve(parent, args, context) {
         return context.prisma.link
@@ -42,10 +42,24 @@ export const LinkQuery = extendType({
   definition(t) {
     t.nonNull.list.nonNull.field("feed", {
       type: "Link",
+      args: {
+        filter: stringArg(),
+      },
       resolve(parent, args, context, info) {
         checkAuth(context);
 
-        return context.prisma.link.findMany();
+        const where = args.filter
+          ? {
+              OR: [
+                { description: { contains: args.filter } },
+                { url: { contains: args.filter } },
+              ],
+            }
+          : {};
+
+        return context.prisma.link.findMany({
+          where,
+        });
       },
     });
 
