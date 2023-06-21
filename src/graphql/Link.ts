@@ -1,5 +1,16 @@
-import { extendType, intArg, nonNull, objectType, stringArg } from "nexus";
+import {
+  arg,
+  enumType,
+  extendType,
+  inputObjectType,
+  intArg,
+  list,
+  nonNull,
+  objectType,
+  stringArg,
+} from "nexus";
 import { Context } from "../context";
+import { Prisma } from "@prisma/client";
 
 const checkAuth = (context: Context): number => {
   const { userId } = context;
@@ -46,6 +57,7 @@ export const LinkQuery = extendType({
         filter: stringArg(),
         skip: intArg(),
         take: intArg(),
+        orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }),
       },
       resolve(parent, args, context, info) {
         checkAuth(context);
@@ -63,6 +75,9 @@ export const LinkQuery = extendType({
           where,
           skip: args?.skip as number | undefined,
           take: args?.take as number | undefined,
+          orderBy: args?.orderBy as
+            | Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput>
+            | undefined,
         });
       },
     });
@@ -167,4 +182,18 @@ export const LinkMutation = extendType({
       },
     });
   },
+});
+
+export const LinkOrderByInput = inputObjectType({
+  name: "LinkOrderByInput",
+  definition(t) {
+    t.field("description", { type: Sort });
+    t.field("url", { type: Sort });
+    t.field("createdAt", { type: Sort });
+  },
+});
+
+export const Sort = enumType({
+  name: "Sort",
+  members: ["asc", "desc"],
 });
